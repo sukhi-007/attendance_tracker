@@ -47,7 +47,7 @@ const BotDetection = ({ sendDataToBackend }) => {
         return navigator.userAgent;
     };
 
-    // ✅ Wrap `sendData` in `useCallback` to prevent re-creation on each render
+
     const sendData = useCallback(async () => {
         const data = {
             typingIntervals,
@@ -58,7 +58,7 @@ const BotDetection = ({ sendDataToBackend }) => {
         };
 
         try {
-            await axios.post("http://localhost:3000/api/detect", data);
+            await axios.post("humansheild-production.up.railway.app/api/detect", data);
             console.log("Bot detection data sent to backend");
         } catch (error) {
             console.error("Error sending bot detection data:", error);
@@ -79,11 +79,10 @@ const BotDetection = ({ sendDataToBackend }) => {
         if (sendDataToBackend) {
             sendDataToBackend.current = sendData;
         }
-    }, [sendDataToBackend, sendData]); // ✅ `sendData` is now stable due to `useCallback`
+    }, [sendDataToBackend, sendData]);
 
     return (
         <div>
-            {/* Multiple Honeypot Fields */}
             <input type="text" name="honeypot1" className="hidden" onChange={handleHoneypotChange} autoComplete="off" />
             <input type="text" name="honeypot2" className="hidden" onChange={handleHoneypotChange} autoComplete="off" />
             <input type="text" name="honeypot3" className="hidden" onChange={handleHoneypotChange} autoComplete="off" />
